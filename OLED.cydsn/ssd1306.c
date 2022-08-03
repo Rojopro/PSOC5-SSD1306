@@ -158,11 +158,16 @@ static uint32 display_write_buf( uint8* buf, uint16_t size ){
 
     uint32 status = TRANSFER_ERROR;
     int i;
+    I2COLED_MasterClearStatus();
     I2COLED_MasterSendStart(_i2caddr,I2COLED_WRITE_XFER_MODE);
     
     for ( i = 0; i < size; i++)
     {
         status = I2COLED_MasterWriteByte(buf[i]);
+        if(status != I2COLED_MSTR_NO_ERROR )
+        {
+        break;
+        }
     }
     
     I2COLED_MasterSendStop();
